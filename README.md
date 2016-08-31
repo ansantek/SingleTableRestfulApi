@@ -1,6 +1,6 @@
 # Single Table Restful API
 
-This application is a simple restful API for accessing a single table in a MySQL database,
+This application is a Node based simple restful API for accessing a single table in a MySQL database,
 suitable for use during development and testing.
 The application is initiated by the command "node bin/app" issued while located in the project root directory.
 The application is configured via a configuration file, SingleTableRestfulApi.cfg located 
@@ -28,4 +28,17 @@ The configuration file is a JSON string as follows:
     "tableName":"sometablename",  
     "keyFieldName":"somefieldname"  
 }  
+
+### Requirements
+
+Node.js installed  
+
+### NPM modules required
+
+express  
+path  
+morgan  
+body-parser  
+
+
 
