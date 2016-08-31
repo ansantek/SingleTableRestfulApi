@@ -5,32 +5,31 @@
 //npm modoules
 import * as express from "express";
 import * as path from "path";
-import * as favicon from "serve-favicon";
 import * as morgan from "morgan";
-import * as cookieParser from "cookie-parser";
 import * as bodyParser from "body-parser";
-import * as serve_static from "serve-static";
+
+import * as singleTableModel from './models/SingleTableModel';
 
 var projectdir = path.join(__dirname,'../');
 var app = express();
 var port = 3002;  //listening port
 
+// view engine setup
+app.set('views', path.join(projectdir, 'views'));
+app.set('view engine', 'jade');
+
 //middleware
-app.use(favicon(path.join(projectdir, 'public', 'favicon.ico')));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(serve_static(path.join(projectdir, 'public')));
 
 //routes - api endpoints
-app.get('/', function(req, res){res.send('default route')});
-app.get('SingleTable/:index1/:index2');  //get range of table entries
-app.get('SingleTable/:id');  //get specific table entry
-app.get('SingleTable');  //get all table entries
-app.post('SingleTable') ; //add new table entry
-app.put('SingleTable/:id'); //update specific table entry
-app.delete('SingleTable/:id'); //delete specific table entry
+app.get('/SingleTable/:offset/:limit', singleTableModel.getSingleTableRange);  //get range of table entries
+app.get('/SingleTable/:id',singleTableModel.getSingleTableId);  //get specific table entry
+app.get('/SingleTable', singleTableModel.getSingleTableList);  //get all table entries
+app.post('/SingleTable',singleTableModel.addSingleTableEntry) ; //add new table entry
+app.put('/SingleTable/:id',singleTableModel.updateSingleTableEntry); //update specific table entry
+app.delete('/SingleTable/:id',singleTableModel.deleteSingleTableEntry); //delete specific table entry
 
 interface ErrorWithStatus extends Error {status : number};
 
